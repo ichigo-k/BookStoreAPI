@@ -3,6 +3,7 @@ package com.kephas.bookstoreapi.dtos;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public record BookDto(
         String isbn,
 
         @NotBlank(message = "Price cannot be blank")
-        Double price,
+        BigInteger price,
 
         @NotBlank(message = "Publication date cannot be blank")
         LocalDate publicationDate,

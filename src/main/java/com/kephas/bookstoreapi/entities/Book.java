@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class Book {
     private String isbn;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private Double price = 0.0;
+    private BigDecimal price = new BigDecimal("0.0");
 
     @Column(name = "publication_date")
     private LocalDate publicationDate;
@@ -45,7 +46,7 @@ public class Book {
     private Author author;
 
 
-    public Book(String title, String isbn, Double price, LocalDate publicationDate, String description, Category category, Author author) {
+    public Book(String title, String isbn, BigDecimal price, LocalDate publicationDate, String description, Category category, Author author) {
         this.title = title;
         this.isbn = isbn;
         this.price = price;

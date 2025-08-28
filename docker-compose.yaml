@@ -5,6 +5,7 @@ services:
       - "5432:5432"
 
     environment:
+      POSTGRES_DB: bookstore
       POSTGRES_USER: kephas
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
