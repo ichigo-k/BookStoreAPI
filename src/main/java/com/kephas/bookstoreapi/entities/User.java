@@ -1,12 +1,21 @@
 package com.kephas.bookstoreapi.entities;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name ="users")
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class User {
 
     @Id
@@ -24,53 +33,15 @@ public class User {
 
     private UserRole role = UserRole.user;
 
+    private LocalDateTime createdAt;
 
-    public User() {
-    }
 
-    public User(String name, String email, UserRole role) {
+    public User(String name, String email,String password, UserRole role) {
         this.name = name;
+        this.password = password;
         this.email = email;
         this.role = role;
     }
 
-    public UUID getId() {
-        return id;
-    }
 
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && role == user.role;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, email, role);
-    }
 }
