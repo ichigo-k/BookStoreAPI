@@ -1,13 +1,11 @@
 package com.kephas.bookstoreapi.dtos;
 
-import com.kephas.bookstoreapi.dtos.BookDto;
 import jakarta.validation.constraints.NotBlank;
-
 import java.util.List;
 import java.util.UUID;
 
 public record AuthorDto(
-        UUID uuid,
+        UUID id,
 
         @NotBlank(message = "Author name  cannot be blank")
         String name,

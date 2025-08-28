@@ -1,14 +1,11 @@
 package com.kephas.bookstoreapi.entities;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
+
 import java.util.UUID;
 
 @Entity
@@ -17,6 +14,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Book {
 
     @Id
@@ -26,7 +24,7 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
 
     @Column(nullable = false, precision = 10, scale = 2)
@@ -46,14 +44,5 @@ public class Book {
     private Author author;
 
 
-    public Book(String title, String isbn, BigDecimal price, LocalDate publicationDate, String description, Category category, Author author) {
-        this.title = title;
-        this.isbn = isbn;
-        this.price = price;
-        this.publicationDate = publicationDate;
-        this.description = description;
-        this.category = category;
-        this.author = author;
-    }
 
 }

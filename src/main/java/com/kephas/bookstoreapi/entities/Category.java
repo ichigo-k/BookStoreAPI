@@ -1,10 +1,7 @@
 package com.kephas.bookstoreapi.entities;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Category {
 
     @Id
@@ -31,10 +29,4 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<Book> books;
 
-
-
-    public Category(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

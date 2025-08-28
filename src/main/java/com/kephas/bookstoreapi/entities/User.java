@@ -1,10 +1,7 @@
 package com.kephas.bookstoreapi.entities;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -16,6 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -34,14 +32,6 @@ public class User {
     private UserRole role = UserRole.user;
 
     private LocalDateTime createdAt;
-
-
-    public User(String name, String email,String password, UserRole role) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-    }
 
 
 }

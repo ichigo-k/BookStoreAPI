@@ -1,10 +1,7 @@
 package com.kephas.bookstoreapi.entities;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,10 +12,12 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false)
     private UUID id;
 
     @Column(nullable = false)
@@ -30,8 +29,4 @@ public class Author {
     private List<Book> books;
 
 
-    public Author(String name, String biography) {
-        this.name = name;
-        this.biography = biography;
-    }
 }
