@@ -1,0 +1,19 @@
+services:
+  database:
+    image: postgres
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_USER: kephas
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+
+    volumes:
+      - db:/data/postgres
+
+    restart: unless-stopped
+
+
+volumes:
+  db:
