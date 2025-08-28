@@ -1,4 +1,4 @@
-package com.kephas.bookstoreapi.domain.entities;
+package com.kephas.bookstoreapi.entities;
 
 import jakarta.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.kephas.bookstoreapi.domain;
+package com.kephas.bookstoreapi.entities;
 
 public enum UserRole {
     admin, user

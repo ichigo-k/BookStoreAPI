@@ -1,6 +1,5 @@
-package com.kephas.bookstoreapi.domain.entities;
+package com.kephas.bookstoreapi.entities;
 
-import com.kephas.bookstoreapi.domain.UserRole;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -20,7 +19,11 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     private UserRole role = UserRole.user;
+
 
     public User() {
     }
