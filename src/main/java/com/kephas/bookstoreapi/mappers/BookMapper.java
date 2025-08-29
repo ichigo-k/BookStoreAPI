@@ -43,7 +43,6 @@ public class BookMapper {
                 bookDto.price(),
                 bookDto.publicationDate(),
                 bookDto.description(),
-                category,
                 author
         );
     }
