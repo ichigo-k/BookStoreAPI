@@ -35,7 +35,7 @@ public class BookMapper {
 
     public Book fromDto(BookDto bookDto) {
         Author author =  authorService.getOneAuthor(bookDto.authorId());
-        Category cat = categoryService.getOneCategory(bookDto.categoryId());
+        Category category = categoryService.getOneCategory(bookDto.categoryId());
         return new Book(
                 bookDto.id(),
                 bookDto.title(),
@@ -43,7 +43,7 @@ public class BookMapper {
                 bookDto.price(),
                 bookDto.publicationDate(),
                 bookDto.description(),
-                cat,
+                category,
                 author
         );
     }
