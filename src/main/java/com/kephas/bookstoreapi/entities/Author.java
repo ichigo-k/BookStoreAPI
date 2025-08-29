@@ -28,5 +28,8 @@ public class Author {
     @OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST)
     private List<Book> books;
 
-
+    public Author(String name, String biography) {
+        this.name = name;
+        this.biography = biography;
+    }
 }
