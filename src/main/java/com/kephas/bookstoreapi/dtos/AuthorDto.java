@@ -7,7 +7,7 @@ import java.util.UUID;
 public record AuthorDto(
         UUID id,
 
-        @NotBlank(message = "Author name  cannot be blank")
+        @NotBlank(message = "Author name cannot be blank")
         String name,
 
         String biography,

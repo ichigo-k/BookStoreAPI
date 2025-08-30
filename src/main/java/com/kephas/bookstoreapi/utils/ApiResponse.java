@@ -3,6 +3,8 @@ package com.kephas.bookstoreapi.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Optional;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiResponse<T>(
         int statusCode ,
@@ -22,4 +24,11 @@ public record ApiResponse<T>(
     public static <T> ApiResponse<T> error(int code, String message){
         return new ApiResponse<>(code, false, message, null);
     }
+
+    public static <T> ApiResponse<T> error(int code, String message, T data){
+        return new ApiResponse<>(code, false, message, data);
+    }
+
+
+
 }

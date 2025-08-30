@@ -8,6 +8,8 @@ import com.kephas.bookstoreapi.services.CategoryService;
 import com.kephas.bookstoreapi.utils.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,9 +35,10 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ApiResponse<Object> createCategory(@Valid @RequestBody CategoryDto categoryDto){
+    public ResponseEntity<ApiResponse<Object>> createCategory(@Valid @RequestBody CategoryDto categoryDto){
         categoryService.createCategory(categoryDto);
-        return ApiResponse.success(202,"Category created successfully", null);
+        ApiResponse<Object> response = ApiResponse.success(201,"Category created successfully", null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
 

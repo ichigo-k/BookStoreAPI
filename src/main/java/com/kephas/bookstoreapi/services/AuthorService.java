@@ -42,7 +42,7 @@ public class AuthorService {
             throw new ResourceNotFoundException("Author does not exist");
         }
 
-        if (bookRepository.countBooksByCategory_Id(id) >= 1) {
+        if (bookRepository.countBooksByAuthor_Id(id) >= 1) {
             List<Book> books = bookRepository.findBooksByAuthor_Id(id);
             Author unknownAuthor = authorRepository.findAuthorByName("Unknown")
                     .orElseGet(() -> {
