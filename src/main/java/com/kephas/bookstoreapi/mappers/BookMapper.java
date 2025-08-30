@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 public class BookMapper {
 
-    private final CategoryService categoryService;
-    private  final AuthorService authorService;
+//    private final CategoryService categoryService;
+//    private  final AuthorService authorService;
 
 
     public BookDto toDto(Book book){
@@ -34,8 +34,8 @@ public class BookMapper {
     }
 
     public Book fromDto(BookDto bookDto) {
-        Author author =  authorService.getOneAuthor(bookDto.authorId());
-        Category category = categoryService.getOneCategory(bookDto.categoryId());
+//        Author author =  authorService.getOneAuthor(bookDto.authorId());
+//        Category category = categoryService.getOneCategory(bookDto.categoryId());
         return new Book(
                 bookDto.id(),
                 bookDto.title(),
@@ -43,8 +43,9 @@ public class BookMapper {
                 bookDto.price(),
                 bookDto.publicationDate(),
                 bookDto.description(),
-                category,
-                author
+                null,
+                null
+
         );
     }
 

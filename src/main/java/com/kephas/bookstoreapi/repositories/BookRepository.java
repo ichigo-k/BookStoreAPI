@@ -12,4 +12,8 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     List<Book> findBooksByAuthor_Id(UUID id);
 
     int countBooksByAuthor_Id(UUID id);
+
+    int countBooksByCategory_Id(UUID id);
+
+    List<Book> findBooksByCategory_Id(UUID id);
 }

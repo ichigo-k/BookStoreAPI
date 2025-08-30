@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public  ResponseEntity<ApiResponse<Object>> handleMissingRoute(Exception ex){
+    public  ResponseEntity<ApiResponse<Object>> handleMissingRoute(NoHandlerFoundException ex){
         ApiResponse<Object> response = ApiResponse.error(404, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }

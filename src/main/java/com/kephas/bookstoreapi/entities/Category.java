@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -29,4 +28,8 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<Book> books;
 
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

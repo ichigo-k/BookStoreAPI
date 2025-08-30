@@ -14,24 +14,24 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/author")
+@RequestMapping("api/v1/authors")
 @AllArgsConstructor
 public class AuthorController {
 
     private final AuthorService authorService;
     private AuthorMapper authorMapper;
 
-    @GetMapping("/")
+    @GetMapping
     public ApiResponse<List<AuthorDto>> getAuthors() {
         List<AuthorDto> authors = authorService.getAuthors()
                 .stream()
                 .map(authorMapper::toDto)
                 .collect(Collectors.toList());
-        return ApiResponse.success("Authors fetched successfully", authors);
+        return ApiResponse.success(null, authors);
     }
 
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResponse<Object> createAuthor(@Valid @RequestBody AuthorDto authorDto){
         authorService.createAuthor(authorDto);
         return ApiResponse.success(202,"Author created successfully", null);
@@ -54,6 +54,6 @@ public class AuthorController {
     @PatchMapping("/{id}")
     public ApiResponse<AuthorDto> updateAuthor(@PathVariable UUID id, @Valid @RequestBody AuthorDto data){
         authorService.updateAuthor(id, data);
-        return ApiResponse.success("Author deleted successfully", null);
+        return ApiResponse.success("Author updated successfully", null);
     }
 }
