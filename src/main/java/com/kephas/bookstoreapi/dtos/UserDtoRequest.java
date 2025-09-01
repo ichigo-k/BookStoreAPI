@@ -8,15 +8,18 @@ import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
 public record UserDtoRequest(
-        @NotBlank(message = "Name cannot be blank")
+        @NotBlank(message = "Name cannot be blank", groups = {OnCreate.class,OnUpdate.class })
         String name,
 
-        @Email(message = "Please provide valid email")
+        @Email(message = "Please provide valid email" , groups = {OnCreate.class,OnUpdate.class })
         String email,
 
-//        @NotBlank(message = "Password cannot be blank")
-//        @Size(min=8, message = "Password must be at least 8 characters long")
+        @NotBlank(message = "Password cannot be blank" , groups = {OnCreate.class})
+        @Size(min=8, message = "Password must be at least 8 characters long", groups = {OnCreate.class})
         String password,
         UserRole role
 
-) { }
+) {
+        public interface OnCreate {}
+        public interface OnUpdate {}
+}

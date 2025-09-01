@@ -32,11 +32,9 @@ public class AuthorController {
         return ApiResponse.success(null, authors);
     }
 
-
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createAuthor(@Valid @RequestBody AuthorDto authorDto){
         authorService.createAuthor(authorDto);
-
         ApiResponse<Object> response = ApiResponse.success(201,"Author created successfully", null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

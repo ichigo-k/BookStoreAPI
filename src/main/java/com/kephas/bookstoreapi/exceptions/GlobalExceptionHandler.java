@@ -1,12 +1,16 @@
 package com.kephas.bookstoreapi.exceptions;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.kephas.bookstoreapi.utils.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.HashMap;
@@ -41,6 +45,34 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiResponse<Object>> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String message = String.format("Invalid value for parameter '%s': expected type %s",
+                ex.getName(), ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
+        ApiResponse<Object> response = ApiResponse.error(400, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
+
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Object>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        String message = "Malformed JSON request";
+
+        if (ex.getCause() instanceof InvalidFormatException cause) {
+            String fieldName = cause.getPath().isEmpty() ? "unknown field" : cause.getPath().get(0).getFieldName();
+            String targetType = cause.getTargetType() != null ? cause.getTargetType().getSimpleName() : "unknown type";
+
+            message = String.format("Invalid value for field '%s': expected a valid %s", fieldName, targetType);
+        }
+        ApiResponse<Object> response = ApiResponse.error(400, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
+
     @ExceptionHandler(ConstraintViolationException.class)
     public  ResponseEntity<ApiResponse<Map<String, String>>> handleConstraintException(ConstraintViolationException ex){
         Map<String, String> errors = new HashMap<>();
@@ -55,9 +87,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(UniqueConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleUniqueConstraintViolationException(UniqueConstraintViolationException ex) {
+        ApiResponse<Object> response = ApiResponse.error(409, "Conflict: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+
+
     @ExceptionHandler(Exception.class)
     public  ResponseEntity<ApiResponse<Object>> handleGeneralException(Exception ex){
-        ApiResponse<Object> response = ApiResponse.error(500, "Something went wrong: " + ex.getMessage());
+        ApiResponse<Object> response = ApiResponse.error(500, "Internal Server Error: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
