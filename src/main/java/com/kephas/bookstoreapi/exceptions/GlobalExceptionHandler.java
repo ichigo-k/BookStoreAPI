@@ -2,16 +2,21 @@ package com.kephas.bookstoreapi.exceptions;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.kephas.bookstoreapi.utils.ApiResponse;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +61,6 @@ public class GlobalExceptionHandler {
 
 
 
-
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse<Object>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         String message = "Malformed JSON request";
@@ -87,12 +91,37 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Object>> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+
+        ApiResponse<Object> response = ApiResponse.error(405, "Request method '" + ex.getMethod() + "' is not supported on this endpoint", null);
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
+    }
+
     @ExceptionHandler(UniqueConstraintViolationException.class)
     public ResponseEntity<ApiResponse<Object>> handleUniqueConstraintViolationException(UniqueConstraintViolationException ex) {
         ApiResponse<Object> response = ApiResponse.error(409, "Conflict: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse<Object>> handleBadCredentialsException(BadCredentialsException ex) {
+        ApiResponse<Object> response = ApiResponse.error(401, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        ApiResponse<Object> response = ApiResponse.error(401, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(InvalidLoginCredentialsException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInvalidCredentialsException(InvalidLoginCredentialsException ex) {
+        ApiResponse<Object> response = ApiResponse.error(401, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
 
 
     @ExceptionHandler(Exception.class)

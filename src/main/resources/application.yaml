@@ -16,4 +16,13 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+  config:
+    import: optional:file:.env[.properties]
+  sql:
+    init:
+      mode: always
+
+jwt:
+  secret: ${JWT_SECRET:myDefaultSecret}
+  expiration: ${JWT_EXPIRATION:3600000}
 

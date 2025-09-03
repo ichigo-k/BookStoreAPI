@@ -60,8 +60,8 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ApiResponse<Object> searchForBooks(@RequestParam(required = false) String title,@RequestParam(required = false) String authorName, @RequestParam(required = false) String categoryName){
-        List<BookDto> books = bookService.searchBooks(title, authorName, categoryName)
+    public ApiResponse<Object> searchForBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String authorName, @RequestParam(required = false) String categoryName, @RequestParam(required = false) Integer year){
+        List<BookDto> books = bookService.searchBooks(title, authorName, categoryName, year)
                 .stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());

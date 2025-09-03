@@ -18,9 +18,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -81,7 +81,12 @@ public class BookService {
     }
 
 
-    public List<Book> searchBooks(String title, String authorName, String categoryName) {
+    public List<Book> searchBooks(String title, String authorName, String categoryName, Integer year) {
+
+        if (title == null && authorName == null && categoryName ==null && year == null){
+            return bookRepository.findAll();
+        }
+
         Specification<Book> spec = Specification.allOf();
 
         if (title != null && !title.isBlank()) {
@@ -102,6 +107,18 @@ public class BookService {
                 return cb.like(cb.lower(category.get("name")), "%" + categoryName.toLowerCase() + "%");
             });
         }
+
+
+        if (year != null) {
+            LocalDate start = LocalDate.of(year, 1, 1);
+            LocalDate end = LocalDate.of(year, 12, 31);
+
+            spec = spec.and((root, query, cb) ->
+                    cb.between(root.get("publicationDate"), start, end));
+        }
+
+
+
 
         return bookRepository.findAll(spec);
     }

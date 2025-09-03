@@ -32,17 +32,17 @@ public class Book {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price = new BigDecimal("0.0");
 
-    @Column(name = "publication_date")
+    @Column(name = "publication_date", nullable = false)
     private LocalDate publicationDate;
 
-    private String description;
+    private String description ="";
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name="author_id")
+    @JoinColumn(name="author_id", nullable = false)
     private Author author;
 
 

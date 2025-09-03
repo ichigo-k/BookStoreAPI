@@ -11,10 +11,10 @@ public record UserDtoRequest(
         @NotBlank(message = "Name cannot be blank", groups = {OnCreate.class,OnUpdate.class })
         String name,
 
-        @Email(message = "Please provide valid email" , groups = {OnCreate.class,OnUpdate.class })
+        @Email(message = "Please provide valid email" , groups = {OnCreate.class,OnUpdate.class ,OnLogin.class})
         String email,
 
-        @NotBlank(message = "Password cannot be blank" , groups = {OnCreate.class})
+        @NotBlank(message = "Password cannot be blank" , groups = {OnCreate.class, OnLogin.class})
         @Size(min=8, message = "Password must be at least 8 characters long", groups = {OnCreate.class})
         String password,
         UserRole role
@@ -22,4 +22,5 @@ public record UserDtoRequest(
 ) {
         public interface OnCreate {}
         public interface OnUpdate {}
+        public interface OnLogin {}
 }

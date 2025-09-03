@@ -3,6 +3,7 @@ package com.kephas.bookstoreapi.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,11 +24,11 @@ public class Author {
     @Column(nullable = false)
     private String name;
 
-    private String biography;
+
+    private String biography="";
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST)
-    private List<Book> books;
-
+    private List<Book> books = new ArrayList<>();
     public Author(String name, String biography) {
         this.name = name;
         this.biography = biography;
