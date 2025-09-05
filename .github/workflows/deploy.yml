@@ -29,4 +29,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: dockerninja725/bookStoreApi:latest
+          tags: dockerninja725/bookstorespi:latest
