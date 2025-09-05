@@ -1,11 +1,12 @@
 spring:
   application:
-    name: BookStoreApi
+    name: ${SPRING_APPLICATION_NAME}
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/bookstore
-    username: kephas
-    password: password
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
     driver-class-name: org.postgresql.Driver
 
   jpa:
