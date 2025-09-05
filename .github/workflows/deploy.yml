@@ -30,3 +30,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: dockerninja725/bookstorespi:latest
+
+      - name: Trigger Render Deploy Hook
+        run: |
+          curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
