@@ -1,8 +1,6 @@
 package com.kephas.bookstoreapi.config;
 
 import com.kephas.bookstoreapi.exceptions.InvalidLoginCredentialsException;
-import com.kephas.bookstoreapi.exceptions.JwtAuthEntryPoint;
-import com.kephas.bookstoreapi.exceptions.UnauthorizedHandler;
 import com.kephas.bookstoreapi.repositories.UserRepository;
 import com.kephas.bookstoreapi.utils.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -31,17 +29,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-
-
                         .requestMatchers(HttpMethod.GET, "/api/v1/books/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/authors/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
+
+
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
 
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/books/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/books/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/books/**").hasRole("ADMIN")
+
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/categories/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/categories/**").hasRole("ADMIN")
@@ -56,10 +57,6 @@ public class SecurityConfig {
 
 
         )
-//                .exceptionHandling(ex ->
-//                        ex.accessDeniedHandler(new UnauthorizedHandler())
-//                                .authenticationEntryPoint(new JwtAuthEntryPoint())
-//                )
                 .csrf(csrf  -> csrf.disable())
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
