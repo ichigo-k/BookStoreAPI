@@ -25,4 +25,4 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET:myDefaultSecrettextthatwillbeusedtoserveasasecreetkeyy=tttggtkgtkgtg}
-  expiration: ${JWT_EXPIRATION:3600000}
+  expiration: ${JWT_EXPIRATION:3600}

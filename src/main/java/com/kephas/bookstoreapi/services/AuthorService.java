@@ -21,7 +21,7 @@ public class AuthorService {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
-    AuthorMapper authorMapper;
+    private final AuthorMapper authorMapper;
 
     public List<Author> getAuthors(){
         return authorRepository.findAll();

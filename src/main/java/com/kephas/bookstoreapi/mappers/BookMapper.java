@@ -1,11 +1,7 @@
 package com.kephas.bookstoreapi.mappers;
 
 import com.kephas.bookstoreapi.dtos.BookDto;
-import com.kephas.bookstoreapi.entities.Author;
 import com.kephas.bookstoreapi.entities.Book;
-import com.kephas.bookstoreapi.entities.Category;
-import com.kephas.bookstoreapi.services.AuthorService;
-import com.kephas.bookstoreapi.services.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +9,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 
 public class BookMapper {
-
-//    private final CategoryService categoryService;
-//    private  final AuthorService authorService;
-
 
     public BookDto toDto(Book book){
         return  new BookDto(
@@ -34,8 +26,6 @@ public class BookMapper {
     }
 
     public Book fromDto(BookDto bookDto) {
-//        Author author =  authorService.getOneAuthor(bookDto.authorId());
-//        Category category = categoryService.getOneCategory(bookDto.categoryId());
         return new Book(
                 bookDto.id(),
                 bookDto.title(),
