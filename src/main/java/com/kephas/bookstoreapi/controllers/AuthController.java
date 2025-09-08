@@ -32,8 +32,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<Object>> login(@Validated(UserDtoRequest.OnLogin.class) @RequestBody UserDtoRequest userDtoRequest){
         Map<String, Object> data = authService.login(userDtoRequest);
-        ApiResponse<Object> response = ApiResponse.success(201,"Login successful", data.get("token"));
-        return ResponseEntity.status(HttpStatus.CREATED)
+        ApiResponse<Object> response = ApiResponse.success(200,"Login successful", data.get("token"));
+        return ResponseEntity.status(HttpStatus.OK)
                 .header("Set-Cookie", data.get("cookie").toString())
                 .body(response);
     }

@@ -50,13 +50,13 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ApiResponse<Object> deleteBook(@PathVariable UUID id){
         bookService.deleteBook(id);
-        return ApiResponse.success(null, "Book Deleted successfully");
+        return ApiResponse.success("Book deleted successfully",null);
     }
 
     @PatchMapping("/{id}")
     public ApiResponse<Object> updateBook(@PathVariable UUID id, @Valid @RequestBody BookDto bookDto){
         bookService.updateBook(id,bookDto );
-        return ApiResponse.success(null, "Book updated successfully");
+        return ApiResponse.success("Book updated successfully",null);
     }
 
     @GetMapping("/search")
