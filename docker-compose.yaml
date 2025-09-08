@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:15
+    image: postgres:17
     ports:
       - "5432:5432"
     environment:
@@ -20,6 +20,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/bookstore
       SPRING_DATASOURCE_USERNAME: kephas
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_APPLICATION_NAME: bookstore-api
     depends_on:
       - database
     restart: unless-stopped
