@@ -62,19 +62,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         } catch (ExpiredJwtException ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("JWT token is expired", ex));
+                    new InvalidLoginCredentialsException("JWT token is expired"));
 
         } catch (MalformedJwtException ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("Malformed JWT token", ex));
+                    new InvalidLoginCredentialsException("Malformed JWT token"));
 
         } catch (SignatureException ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("Invalid JWT signature", ex));
+                    new InvalidLoginCredentialsException("Invalid JWT signature"));
 
         } catch (Exception ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("Authentication failed", ex));
+                    new InvalidLoginCredentialsException("Authentication failed"));
         }
     }
 }
