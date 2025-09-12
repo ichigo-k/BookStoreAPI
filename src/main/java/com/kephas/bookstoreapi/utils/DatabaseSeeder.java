@@ -24,11 +24,11 @@ public class DatabaseSeeder {
                 admin.setName("Admin");
                 admin.setEmail("admin@mail.com");
                 admin.setRole(UserRole.ADMIN);
-                admin.setPassword(passwordEncoder.encode("password"));
+                admin.setPassword(passwordEncoder.encode("adminpassword"));
                 userRepository.save(admin);
                 System.out.println("Admin user created!");
             } else {
-                System.out.println("Admin user already exists, skipping seeding.");
+                System.out.println("Admin user already exists, skipping seeding...");
             }
         };
     }
