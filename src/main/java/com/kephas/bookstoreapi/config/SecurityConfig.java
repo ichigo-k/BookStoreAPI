@@ -2,7 +2,7 @@ package com.kephas.bookstoreapi.config;
 
 import com.kephas.bookstoreapi.exceptions.InvalidLoginCredentialsException;
 import com.kephas.bookstoreapi.repositories.UserRepository;
-import com.kephas.bookstoreapi.utils.JwtAuthenticationFilter;
+import com.kephas.bookstoreapi.filters.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

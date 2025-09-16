@@ -6,7 +6,7 @@ import com.kephas.bookstoreapi.dtos.UserDtoResponse;
 import com.kephas.bookstoreapi.entities.User;
 import com.kephas.bookstoreapi.mappers.UserMapper;
 import com.kephas.bookstoreapi.services.UserService;
-import com.kephas.bookstoreapi.utils.JwtAuthenticationFilter;
+import com.kephas.bookstoreapi.filters.JwtAuthenticationFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

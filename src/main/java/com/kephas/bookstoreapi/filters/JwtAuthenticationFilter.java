@@ -1,4 +1,4 @@
-package com.kephas.bookstoreapi.utils;
+package com.kephas.bookstoreapi.filters;
 
 import com.kephas.bookstoreapi.entities.User;
 import com.kephas.bookstoreapi.exceptions.InvalidLoginCredentialsException;

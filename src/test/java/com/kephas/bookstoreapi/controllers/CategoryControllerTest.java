@@ -6,7 +6,7 @@ import com.kephas.bookstoreapi.entities.Category;
 import com.kephas.bookstoreapi.exceptions.ResourceNotFoundException;
 import com.kephas.bookstoreapi.mappers.CategoryMapper;
 import com.kephas.bookstoreapi.services.CategoryService;
-import com.kephas.bookstoreapi.utils.JwtAuthenticationFilter;
+import com.kephas.bookstoreapi.filters.JwtAuthenticationFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
