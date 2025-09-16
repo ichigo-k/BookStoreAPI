@@ -1,5 +1,6 @@
 package com.kephas.bookstoreapi.dtos;
 
+
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,31 +9,33 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static com.kephas.bookstoreapi.constants.ValidationMessages.*;
+
 public record BookDto(
         UUID id,
 
-        @NotBlank(message = "Book title cannot be blank")
+        @NotBlank(message = TITLE_NOT_BLANK)
         String title,
 
-        @NotBlank(message = "Book isbn cannot be blank")
+        @NotBlank(message =ISBN_NOT_BLANK)
         @Column(unique = true)
         String isbn,
 
-        @NotNull(message = "Book price cannot be null")
+        @NotNull(message = PRICE_NOT_NULL)
         java.math.BigDecimal price,
 
-        @NotNull(message = "Publication date cannot be blank")
+        @NotNull(message = PUBLICATION_DATE_NOT_NULL)
         LocalDate publicationDate,
 
-        @NotBlank(message = "Book description cannot be blank")
-        @Size(min=10, max = 255, message = "Description must be 10 to 255 characters long ")
+        @NotBlank(message = DESCRIPTION_NOT_BLANK)
+        @Size(min=10, max = 255, message = DESCRIPTION_SIZE)
         String description,
 
-        @NotNull(message = "Category is required")
+        @NotNull(message = CATEGORY_REQUIRED)
         UUID categoryId,
         String categoryName,
 
-        @NotNull(message = "Author is required")
+        @NotNull(message = AUTHOR_REQUIRED)
         UUID authorId,
         String authorName
 ) {}

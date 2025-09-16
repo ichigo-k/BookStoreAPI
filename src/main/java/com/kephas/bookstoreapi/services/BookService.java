@@ -11,8 +11,6 @@ import com.kephas.bookstoreapi.repositories.AuthorRepository;
 import com.kephas.bookstoreapi.repositories.BookRepository;
 import com.kephas.bookstoreapi.repositories.CategoryRepository;
 import com.kephas.bookstoreapi.specifications.BookSpecification;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,9 +18,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+
+import static com.kephas.bookstoreapi.constants.BookMessages.*;
 
 @AllArgsConstructor
 @Service
@@ -42,11 +41,11 @@ public class BookService {
     public void createBook(@Valid BookDto bookDto) {
 
         if (bookRepository.existsBookByIsbn(bookDto.isbn())){
-            throw new UniqueConstraintViolationException("Book with isbn already exists");
+            throw new UniqueConstraintViolationException(BOOK_EXISTS_BY_ISBN);
         }
 
-        Author author = authorRepository.findById(bookDto.authorId()).orElseThrow( ()-> new ResourceNotFoundException("Author does not exist"));
-        Category category = categoryRepository.findById(bookDto.categoryId()).orElseThrow( ()-> new ResourceNotFoundException("Category does not exist"));
+        Author author = authorRepository.findById(bookDto.authorId()).orElseThrow( ()-> new ResourceNotFoundException(AUTHOR_NOT_FOUND));
+        Category category = categoryRepository.findById(bookDto.categoryId()).orElseThrow( ()-> new ResourceNotFoundException(CATEGORY_NOT_FOUND));
 
         Book book = bookMapper.fromDto(bookDto);
         book.setAuthor(author);
@@ -56,7 +55,7 @@ public class BookService {
 
 
     public BookDto getBook(UUID id) {
-        Book book = bookRepository.findById(id).orElseThrow( ()-> new ResourceNotFoundException("Book by id: " + id+ " does not exist"));
+        Book book = bookRepository.findById(id).orElseThrow( ()-> new ResourceNotFoundException(String.format(BOOK_NOT_FOUND_BY_ID, id)));
         return bookMapper.toDto(book);
     }
 
@@ -67,9 +66,9 @@ public class BookService {
 
     @Transactional
     public void updateBook(UUID id, @Valid BookDto bookDto) {
-        Book book = bookRepository.findById(id).orElseThrow( ()-> new ResourceNotFoundException("Book by id: " + id+ " does not exist"));
-        Author author = authorRepository.findById(bookDto.authorId()).orElseThrow( ()-> new ResourceNotFoundException("Author does not exist"));
-        Category category = categoryRepository.findById(bookDto.categoryId()).orElseThrow( ()-> new ResourceNotFoundException("Category does not exist"));
+        Book book = bookRepository.findById(id).orElseThrow( ()-> new ResourceNotFoundException(String.format(BOOK_NOT_FOUND_BY_ID, id)));
+        Author author = authorRepository.findById(bookDto.authorId()).orElseThrow( ()-> new ResourceNotFoundException(AUTHOR_NOT_FOUND));
+        Category category = categoryRepository.findById(bookDto.categoryId()).orElseThrow( ()-> new ResourceNotFoundException(CATEGORY_NOT_FOUND));
 
         book.setTitle(bookDto.title());
         book.setIsbn(bookDto.isbn());

@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.kephas.bookstoreapi.constants.BookMessages.*;
+
 @RestController
 @RequestMapping("api/v1/books")
 @AllArgsConstructor
@@ -36,7 +38,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createBook(@Valid @RequestBody BookDto bookDto ){
         bookService.createBook(bookDto);
-        ApiResponse<Object> response = ApiResponse.success(201,"Book created successfully", null);
+        ApiResponse<Object> response = ApiResponse.success(201, BOOK_CREATED, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -50,28 +52,32 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ApiResponse<Object> deleteBook(@PathVariable UUID id){
         bookService.deleteBook(id);
-        return ApiResponse.success("Book deleted successfully",null);
+        return ApiResponse.success(BOOK_DELETED,null);
     }
 
     @PatchMapping("/{id}")
     public ApiResponse<Object> updateBook(@PathVariable UUID id, @Valid @RequestBody BookDto bookDto){
         bookService.updateBook(id,bookDto );
-        return ApiResponse.success("Book updated successfully",null);
+        return ApiResponse.success(BOOK_UPDATED,null);
     }
 
     @GetMapping("/search")
-    public ApiResponse<Object> searchForBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String authorName, @RequestParam(required = false) String categoryName, @RequestParam(required = false) Integer year){
+    public ApiResponse<Object> searchForBooks(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String authorName,
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) Integer year
+    ){
         List<BookDto> books = bookService.searchBooks(title, authorName, categoryName, year)
                 .stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
 
         if (books.isEmpty()) {
-            return ApiResponse.success("No books found matching the search criteria", books);
+            return ApiResponse.success(NO_BOOKS_FOUND, books);
         }
 
-        String message = String.format("Found %d book%s matching the search criteria",
-                books.size(), books.size() > 1 ? "s" : "");
+        String message = String.format(BOOKS_FOUND,books.size(), books.size() > 1 ? "s" : "");
         return ApiResponse.success(message, books);
     }
 }

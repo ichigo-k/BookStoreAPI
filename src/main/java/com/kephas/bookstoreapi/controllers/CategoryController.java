@@ -1,7 +1,6 @@
 package com.kephas.bookstoreapi.controllers;
 
 
-import com.kephas.bookstoreapi.dtos.AuthorDto;
 import com.kephas.bookstoreapi.dtos.CategoryDto;
 import com.kephas.bookstoreapi.mappers.CategoryMapper;
 import com.kephas.bookstoreapi.services.CategoryService;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.kephas.bookstoreapi.constants.CategoryMessages.*;
 
 @RestController
 @RequestMapping("api/v1/categories")
@@ -37,7 +38,7 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createCategory(@Valid @RequestBody CategoryDto categoryDto){
         categoryService.createCategory(categoryDto);
-        ApiResponse<Object> response = ApiResponse.success(201,"Category created successfully", null);
+        ApiResponse<Object> response = ApiResponse.success(201,CATEGORY_CREATED, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
@@ -51,13 +52,13 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ApiResponse<CategoryDto> deleteCategory(@PathVariable UUID id){
         categoryService.deleteCategory(id);
-        return ApiResponse.success("Category deleted successfully", null);
+        return ApiResponse.success(CATEGORY_DELETED, null);
     }
 
     @PatchMapping("/{id}")
     public ApiResponse<CategoryDto> updateAuthor(@PathVariable UUID id, @Valid @RequestBody CategoryDto data){
         categoryService.updateCategory(id, data);
-        return ApiResponse.success("Category updated successfully", null);
+        return ApiResponse.success(CATEGORY_UPDATED, null);
     }
 
 }

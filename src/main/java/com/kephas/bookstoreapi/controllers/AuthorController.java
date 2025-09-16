@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.kephas.bookstoreapi.constants.AuthorMessages.*;
+
 @RestController
 @RequestMapping("api/v1/authors")
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class AuthorController {
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createAuthor(@Valid @RequestBody AuthorDto authorDto){
         authorService.createAuthor(authorDto);
-        ApiResponse<Object> response = ApiResponse.success(201,"Author created successfully", null);
+        ApiResponse<Object> response = ApiResponse.success(201, AUTHOR_CREATED, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -49,12 +51,12 @@ public class AuthorController {
     @DeleteMapping("/{id}")
     public ApiResponse<AuthorDto> deleteAuthor(@PathVariable UUID id){
         authorService.deleteAuthor(id);
-        return ApiResponse.success("Author deleted successfully", null);
+        return ApiResponse.success(AUTHOR_DELETED, null);
     }
 
     @PatchMapping("/{id}")
     public ApiResponse<AuthorDto> updateAuthor(@PathVariable UUID id, @Valid @RequestBody AuthorDto data){
         authorService.updateAuthor(id, data);
-        return ApiResponse.success("Author updated successfully", null);
+        return ApiResponse.success(AUTHOR_UPDATED, null);
     }
 }
