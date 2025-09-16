@@ -56,11 +56,12 @@ class CategoryServiceTest {
         @DisplayName("Should return list of categories")
         void getCategories_ShouldReturnList() {
             when(categoryRepository.findAll()).thenReturn(List.of(category));
+            when(categoryMapper.toDto(category)).thenReturn(categoryDto);
 
-            List<Category> result = categoryService.getCategories();
+            List<CategoryDto> result = categoryService.getCategories();
 
             assertEquals(1, result.size());
-            assertEquals("Fiction", result.get(0).getName());
+            assertEquals("Fiction", result.get(0).name());
             verify(categoryRepository, times(1)).findAll();
         }
     }

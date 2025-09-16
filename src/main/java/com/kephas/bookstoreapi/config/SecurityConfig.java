@@ -2,7 +2,7 @@ package com.kephas.bookstoreapi.config;
 
 import com.kephas.bookstoreapi.exceptions.InvalidLoginCredentialsException;
 import com.kephas.bookstoreapi.repositories.UserRepository;
-import com.kephas.bookstoreapi.utils.JwtAuthenticationFilter;
+import com.kephas.bookstoreapi.filters.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,32 +31,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests( auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/v1/books/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/authors/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
 
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/v1/books/**",
+                                "/api/v1/categories/**",
+                                "/api/v1/authors/**",
+                                "/api/v1/user/**")
+                        .hasAnyRole("USER", "ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
 
-
-                        .requestMatchers(HttpMethod.POST, "/api/v1/books/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/books/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/books/**").hasRole("ADMIN")
-
-
-                        .requestMatchers(HttpMethod.POST, "/api/v1/categories/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/categories/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.POST, "/api/v1/authors/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/authors/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/authors/**").hasRole("ADMIN")
-
+                        .requestMatchers("/api/v1/books/**",
+                                "/api/v1/categories/**",
+                                "/api/v1/authors/**")
+                        .hasRole("ADMIN")
 
                         .anyRequest().permitAll()
-
 
         )
                 .csrf(csrf  -> csrf.disable())

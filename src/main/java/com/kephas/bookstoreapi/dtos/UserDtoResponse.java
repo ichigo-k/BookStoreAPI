@@ -1,6 +1,6 @@
 package com.kephas.bookstoreapi.dtos;
 
-import com.kephas.bookstoreapi.entities.UserRole;
+import com.kephas.bookstoreapi.enums.UserRole;
 import java.util.UUID;
 
 public record UserDtoResponse(

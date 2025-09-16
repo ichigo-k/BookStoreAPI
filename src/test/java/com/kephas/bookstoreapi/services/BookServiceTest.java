@@ -89,11 +89,12 @@ class BookServiceTest {
         @DisplayName("Should return all books")
         void getBooks_ShouldReturnList() {
             when(bookRepository.findAll()).thenReturn(List.of(book));
+            when(bookMapper.toDto(book)).thenReturn(bookDto);
 
-            List<Book> result = bookService.getBooks();
+            List<BookDto> result = bookService.getBooks();
 
             assertEquals(1, result.size());
-            assertEquals("Test Book", result.get(0).getTitle());
+            assertEquals("Test Book", result.get(0).title());
             verify(bookRepository, times(1)).findAll();
         }
     }
@@ -260,7 +261,7 @@ class BookServiceTest {
         void searchBooks_ShouldReturnAll_WhenNoFilters() {
             when(bookRepository.findAll()).thenReturn(List.of(book));
 
-            List<Book> result = bookService.searchBooks(null, null, null, null);
+            List<BookDto> result = bookService.searchBooks(null, null, null, null);
 
             assertEquals(1, result.size());
             verify(bookRepository, times(1)).findAll();
@@ -271,7 +272,7 @@ class BookServiceTest {
         void searchBooks_ShouldReturnFiltered_WhenFiltersProvided() {
             when(bookRepository.findAll(any(Specification.class))).thenReturn(List.of(book));
 
-            List<Book> result = bookService.searchBooks("Test", "Test Author", "Fiction", 2020);
+            List<BookDto> result = bookService.searchBooks("Test", "Test Author", "Fiction", 2020);
 
             assertEquals(1, result.size());
             verify(bookRepository, times(1)).findAll(any(Specification.class));

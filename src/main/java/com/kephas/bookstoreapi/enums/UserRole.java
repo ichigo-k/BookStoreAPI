@@ -1,4 +1,4 @@
-package com.kephas.bookstoreapi.entities;
+package com.kephas.bookstoreapi.enums;
 
 public enum UserRole {
     ADMIN, USER

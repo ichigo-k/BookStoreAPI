@@ -5,7 +5,7 @@ import com.kephas.bookstoreapi.entities.Author;
 import com.kephas.bookstoreapi.exceptions.ResourceNotFoundException;
 import com.kephas.bookstoreapi.mappers.AuthorMapper;
 import com.kephas.bookstoreapi.services.AuthorService;
-import com.kephas.bookstoreapi.utils.JwtAuthenticationFilter;
+import com.kephas.bookstoreapi.filters.JwtAuthenticationFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -80,9 +80,7 @@ class AuthorControllerTest {
         @DisplayName("getAuthorById_shouldReturn200")
         void getAuthorById_shouldReturn200() throws Exception {
             UUID id = UUID.randomUUID();
-            when(authorService.getOneAuthor(id)).thenReturn(author);
-            when(authorMapper.toDto(author)).thenReturn(authorDto);
-
+            when(authorService.getOneAuthor(id)).thenReturn(authorDto);
             mockMvc.perform(get("/api/v1/authors/" + id))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true))

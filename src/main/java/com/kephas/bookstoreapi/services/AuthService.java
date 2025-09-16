@@ -17,6 +17,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kephas.bookstoreapi.constants.AuthMessages.*;
+
 @AllArgsConstructor
 @Service
 public class AuthService {
@@ -27,7 +29,7 @@ public class AuthService {
 
     public void signUp(@Valid UserDtoRequest userDtoRequest) {
         if (userRepository.existsByEmail(userDtoRequest.email())){
-            throw new UniqueConstraintViolationException("Email already taken");
+            throw new UniqueConstraintViolationException(EMAIL_ALREADY_TAKEN);
         }
 
         User user = new User();

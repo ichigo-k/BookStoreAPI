@@ -8,7 +8,7 @@ import com.kephas.bookstoreapi.entities.Category;
 import com.kephas.bookstoreapi.exceptions.ResourceNotFoundException;
 import com.kephas.bookstoreapi.mappers.BookMapper;
 import com.kephas.bookstoreapi.services.BookService;
-import com.kephas.bookstoreapi.utils.JwtAuthenticationFilter;
+import com.kephas.bookstoreapi.filters.JwtAuthenticationFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -76,8 +76,7 @@ class BookControllerTest {
         @Test
         @DisplayName("Should return 200 OK with book list")
         void shouldReturn200() throws Exception {
-            when(bookService.getBooks()).thenReturn(List.of(book));
-            when(bookMapper.toDto(any())).thenReturn(bookDto);
+            when(bookService.getBooks()).thenReturn(List.of(bookDto));
 
             mockMvc.perform(get("/api/v1/books"))
                     .andExpect(status().isOk())
@@ -218,8 +217,7 @@ class BookControllerTest {
         @Test
         @DisplayName("Should return 200 OK with results")
         void shouldReturn200WithResults() throws Exception {
-            when(bookService.searchBooks("Book Title", null, null, null)).thenReturn(List.of(book));
-            when(bookMapper.toDto(any())).thenReturn(bookDto);
+            when(bookService.searchBooks("Book Title", null, null, null)).thenReturn(List.of(bookDto));
 
             mockMvc.perform(get("/api/v1/books/search")
                             .param("title", "Book Title"))

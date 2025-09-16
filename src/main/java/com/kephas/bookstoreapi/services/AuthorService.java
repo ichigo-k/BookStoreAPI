@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static com.kephas.bookstoreapi.constants.AuthorMessages.*;
 
 @AllArgsConstructor
 @Service
@@ -23,12 +26,16 @@ public class AuthorService {
     private final BookRepository bookRepository;
     private final AuthorMapper authorMapper;
 
-    public List<Author> getAuthors(){
-        return authorRepository.findAll();
+    public List<AuthorDto> getAuthors(){
+
+        return authorRepository.findAll().stream()
+                .map(authorMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Author getOneAuthor(UUID id){
-        return authorRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Author with id: "+ id+ " does not exist"));
+    public AuthorDto getOneAuthor(UUID id){
+        Author author = authorRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException(String.format(AUTHOR_NOT_FOUND_BY_ID, id)));
+        return authorMapper.toDto(author);
     }
 
     public void createAuthor(AuthorDto authorDto) {
@@ -39,16 +46,16 @@ public class AuthorService {
     @Transactional
     public void deleteAuthor(UUID id) {
         if (!authorRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Author does not exist");
+            throw new ResourceNotFoundException(AUTHOR_NOT_FOUND);
         }
 
         if (bookRepository.countBooksByAuthor_Id(id) >= 1) {
             List<Book> books = bookRepository.findBooksByAuthor_Id(id);
-            Author unknownAuthor = authorRepository.findAuthorByName("Unknown")
+            Author unknownAuthor = authorRepository.findAuthorByName(UNKNOWN_AUTHOR_NAME)
                     .orElseGet(() -> {
                         Author newAuthor = new Author(
-                                "Unknown",
-                                "Author information is currently unavailable. We're working hard to update it soon"
+                                UNKNOWN_AUTHOR_NAME,
+                                UNKNOWN_AUTHOR_BIO
                         );
                         return authorRepository.save(newAuthor);
                     });
@@ -61,7 +68,7 @@ public class AuthorService {
 
 
     public void updateAuthor(UUID id, @Valid AuthorDto data) {
-        Author author = authorRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Author with id: "+ id+ " does not exist"));
+        Author author = authorRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException(AUTHOR_NOT_FOUND_BY_ID));
         author.setName(data.name());
         author.setBiography(data.biography());
         authorRepository.save(author);

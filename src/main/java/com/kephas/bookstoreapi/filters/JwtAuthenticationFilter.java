@@ -1,5 +1,6 @@
-package com.kephas.bookstoreapi.utils;
+package com.kephas.bookstoreapi.filters;
 
+import com.kephas.bookstoreapi.constants.ExceptionMessages;
 import com.kephas.bookstoreapi.entities.User;
 import com.kephas.bookstoreapi.exceptions.InvalidLoginCredentialsException;
 import com.kephas.bookstoreapi.exceptions.JwtAuthEntryPoint;
@@ -9,6 +10,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,9 +32,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtAuthEntryPoint authenticationEntryPoint;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
         try {
@@ -48,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User user = userRepository.findByEmail(username)
-                        .orElseThrow(() -> new InvalidLoginCredentialsException("Invalid or expired token"));
+                        .orElseThrow(() -> new InvalidLoginCredentialsException(ExceptionMessages.INVALID_EMAIL_OR_PASSWORD));
 
                 if (jwtService.validateToken(token, user.getUsername())) {
                     UsernamePasswordAuthenticationToken authToken =
@@ -62,19 +64,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         } catch (ExpiredJwtException ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("JWT token is expired"));
+                    new InvalidLoginCredentialsException(ExceptionMessages.JWT_EXPIRED));
 
         } catch (MalformedJwtException ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("Malformed JWT token"));
+                    new InvalidLoginCredentialsException(ExceptionMessages.JWT_MALFORMED));
 
         } catch (SignatureException ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("Invalid JWT signature"));
+                    new InvalidLoginCredentialsException(ExceptionMessages.JWT_INVALID_SIGNATURE));
 
         } catch (Exception ex) {
             authenticationEntryPoint.commence(request, response,
-                    new InvalidLoginCredentialsException("Authentication failed"));
+                    new InvalidLoginCredentialsException(ExceptionMessages.AUTH_FAILED));
         }
     }
 }

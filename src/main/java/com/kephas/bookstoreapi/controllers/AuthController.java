@@ -1,5 +1,6 @@
 package com.kephas.bookstoreapi.controllers;
 
+
 import com.kephas.bookstoreapi.dtos.UserDtoRequest;
 import com.kephas.bookstoreapi.services.AuthService;
 import com.kephas.bookstoreapi.utils.ApiResponse;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+import static com.kephas.bookstoreapi.constants.AuthMessages.*;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @AllArgsConstructor
@@ -24,7 +27,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<Object>> signUp( @Validated(UserDtoRequest.OnCreate.class) @RequestBody UserDtoRequest userDtoRequest){
         authService.signUp(userDtoRequest);
-        ApiResponse<Object> response = ApiResponse.success(201,"Account registered successfully", null);
+        ApiResponse<Object> response = ApiResponse.success(201, ACCOUNT_REGISTERED, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -32,7 +35,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<Object>> login(@Validated(UserDtoRequest.OnLogin.class) @RequestBody UserDtoRequest userDtoRequest){
         Map<String, Object> data = authService.login(userDtoRequest);
-        ApiResponse<Object> response = ApiResponse.success(200,"Login successful", data.get("token"));
+        ApiResponse<Object> response = ApiResponse.success(200,LOGIN_SUCCESSFUL, data.get("token"));
         return ResponseEntity.status(HttpStatus.OK)
                 .header("Set-Cookie", data.get("cookie").toString())
                 .body(response);

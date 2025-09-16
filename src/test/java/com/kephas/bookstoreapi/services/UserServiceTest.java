@@ -2,7 +2,7 @@ package com.kephas.bookstoreapi.services;
 
 import com.kephas.bookstoreapi.dtos.UserDtoRequest;
 import com.kephas.bookstoreapi.entities.User;
-import com.kephas.bookstoreapi.entities.UserRole;
+import com.kephas.bookstoreapi.enums.UserRole;
 import com.kephas.bookstoreapi.exceptions.ResourceNotFoundException;
 import com.kephas.bookstoreapi.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;

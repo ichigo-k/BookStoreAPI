@@ -2,7 +2,7 @@ package com.kephas.bookstoreapi.services;
 
 import com.kephas.bookstoreapi.dtos.UserDtoRequest;
 import com.kephas.bookstoreapi.entities.User;
-import com.kephas.bookstoreapi.entities.UserRole;
+import com.kephas.bookstoreapi.enums.UserRole;
 import com.kephas.bookstoreapi.exceptions.UniqueConstraintViolationException;
 import com.kephas.bookstoreapi.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.Duration;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;

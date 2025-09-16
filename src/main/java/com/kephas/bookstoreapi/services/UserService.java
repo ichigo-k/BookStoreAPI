@@ -2,7 +2,7 @@ package com.kephas.bookstoreapi.services;
 
 import com.kephas.bookstoreapi.dtos.UserDtoRequest;
 import com.kephas.bookstoreapi.entities.User;
-import com.kephas.bookstoreapi.entities.UserRole;
+import com.kephas.bookstoreapi.enums.UserRole;
 import com.kephas.bookstoreapi.exceptions.ResourceNotFoundException;
 import com.kephas.bookstoreapi.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+
+import static com.kephas.bookstoreapi.constants.UserMessages.*;
 
 @Service
 @AllArgsConstructor
@@ -43,26 +45,26 @@ public class UserService {
 
     public String makeAdmin(UUID id) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User does not exist"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND));
 
         if (user.getRole() == UserRole.ADMIN){
-            return user.getName()+ " is already an admin";
+            return String.format(ALREADY_ADMIN, user.getName());
         }
 
         user.setRole(UserRole.ADMIN);
         userRepository.save(user);
-        return user.getName()+ " is now an admin";
+        return String.format(NOW_ADMIN, user.getName());
     }
 
     public String unMakeAdmin(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User does not exist"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND));
 
         if (user.getRole() == UserRole.USER){
-            return user.getName()+ " is already non admin";
+            return String.format(ALREADY_NON_ADMIN,user.getName());
         }
 
         user.setRole(UserRole.USER);
         userRepository.save(user);
-        return user.getName()+ " is no longer an admin";
+        return String.format(NO_LONGER_ADMIN, user.getName());
     }
 }

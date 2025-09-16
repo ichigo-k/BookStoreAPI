@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.kephas.bookstoreapi.constants.UserMessages.*;
+
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -31,13 +33,17 @@ public class UserController {
     @PatchMapping("/")
     public  ApiResponse<Object> updateDetails(@AuthenticationPrincipal User user,  @Validated(UserDtoRequest.OnUpdate.class) @RequestBody UserDtoRequest userDtoRequest ){
         UserDtoResponse userDtoResponse = userMapper.toDto(userService.update(user, userDtoRequest));
-        return ApiResponse.success("Details update successfully", userDtoResponse);
+        return ApiResponse.success(USER_DETAILS_UPDATED, userDtoResponse);
     }
 
     @PostMapping("/change-password")
-    public  ApiResponse<Object> changePassword(@AuthenticationPrincipal User user,  @Validated(UserDtoRequest.OnChangePassword.class) @RequestBody UserDtoRequest userDtoRequest ){
+    public  ApiResponse<Object> changePassword(
+            @AuthenticationPrincipal User user,
+            @Validated(UserDtoRequest.OnChangePassword.class)
+            @RequestBody UserDtoRequest userDtoRequest
+    ){
         userService.changePassword(user, userDtoRequest);
-        return ApiResponse.success("Password changed successfully", null);
+        return ApiResponse.success(PASSWORD_CHANGED, null);
     }
 
 
