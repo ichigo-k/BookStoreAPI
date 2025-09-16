@@ -10,6 +10,7 @@ import com.kephas.bookstoreapi.mappers.BookMapper;
 import com.kephas.bookstoreapi.repositories.AuthorRepository;
 import com.kephas.bookstoreapi.repositories.BookRepository;
 import com.kephas.bookstoreapi.repositories.CategoryRepository;
+import com.kephas.bookstoreapi.specifications.BookSpecification;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.transaction.Transactional;
@@ -87,37 +88,12 @@ public class BookService {
             return bookRepository.findAll();
         }
 
-        Specification<Book> spec = Specification.allOf();
-
-        if (title != null && !title.isBlank()) {
-            spec = spec.and((root, query, cb) ->
-                    cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%"));
-        }
-
-        if (authorName != null && !authorName.isBlank()) {
-            spec = spec.and((root, query, cb) -> {
-                Join<Object, Object> author = root.join("author", JoinType.LEFT);
-                return cb.like(cb.lower(author.get("name")), "%" + authorName.toLowerCase() + "%");
-            });
-        }
-
-        if (categoryName != null && !categoryName.isBlank()) {
-            spec = spec.and((root, query, cb) -> {
-                Join<Object, Object> category = root.join("category", JoinType.LEFT);
-                return cb.like(cb.lower(category.get("name")), "%" + categoryName.toLowerCase() + "%");
-            });
-        }
-
-
-        if (year != null) {
-            LocalDate start = LocalDate.of(year, 1, 1);
-            LocalDate end = LocalDate.of(year, 12, 31);
-
-            spec = spec.and((root, query, cb) ->
-                    cb.between(root.get("publicationDate"), start, end));
-        }
-
-
+        Specification<Book> spec = Specification.allOf(
+                BookSpecification.hasTitle(title),
+                BookSpecification.hasAuthor(authorName),
+                BookSpecification.hasCategory(categoryName),
+                BookSpecification.publishedInYear(year)
+        );
 
 
         return bookRepository.findAll(spec);
