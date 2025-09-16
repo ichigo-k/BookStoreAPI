@@ -1,6 +1,7 @@
 package com.kephas.bookstoreapi.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kephas.bookstoreapi.constants.ExceptionMessages;
 import com.kephas.bookstoreapi.utils.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        String message = "Authentication Failed";
+        String message = ExceptionMessages.ACCESS_DENIED;
 
         if (authException.getCause() != null) {
             message += ": " + authException.getCause().getMessage();
