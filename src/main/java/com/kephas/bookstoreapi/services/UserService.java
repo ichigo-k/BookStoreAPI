@@ -2,7 +2,7 @@ package com.kephas.bookstoreapi.services;
 
 import com.kephas.bookstoreapi.dtos.UserDtoRequest;
 import com.kephas.bookstoreapi.entities.User;
-import com.kephas.bookstoreapi.entities.UserRole;
+import com.kephas.bookstoreapi.enums.UserRole;
 import com.kephas.bookstoreapi.exceptions.ResourceNotFoundException;
 import com.kephas.bookstoreapi.repositories.UserRepository;
 import lombok.AllArgsConstructor;

@@ -3,7 +3,6 @@ package com.kephas.bookstoreapi.mappers;
 import com.kephas.bookstoreapi.dtos.UserDtoRequest;
 import com.kephas.bookstoreapi.dtos.UserDtoResponse;
 import com.kephas.bookstoreapi.entities.User;
-import com.kephas.bookstoreapi.entities.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package com.kephas.bookstoreapi.controllers;
 
 import com.kephas.bookstoreapi.dtos.UserDtoRequest;
-import com.kephas.bookstoreapi.entities.UserRole;
+import com.kephas.bookstoreapi.enums.UserRole;
 import com.kephas.bookstoreapi.services.AuthService;
 import com.kephas.bookstoreapi.filters.JwtAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;

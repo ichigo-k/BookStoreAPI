@@ -1,7 +1,7 @@
 package com.kephas.bookstoreapi.utils;
 
 import com.kephas.bookstoreapi.entities.User;
-import com.kephas.bookstoreapi.entities.UserRole;
+import com.kephas.bookstoreapi.enums.UserRole;
 import com.kephas.bookstoreapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
