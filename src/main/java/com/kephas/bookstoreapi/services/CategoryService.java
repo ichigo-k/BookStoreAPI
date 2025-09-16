@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.kephas.bookstoreapi.constants.CategoryMessages.*;
 
@@ -29,8 +30,10 @@ public class CategoryService {
         return categoryMapper.toDto(category);
     }
 
-    public List<Category> getCategories() {
-        return categoryRepository.findAll();
+    public List<CategoryDto> getCategories() {
+        return categoryRepository.findAll()   .stream()
+                .map(categoryMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public void createCategory(CategoryDto categoryDto) {

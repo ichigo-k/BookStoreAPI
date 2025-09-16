@@ -31,6 +31,7 @@ import static org.mockito.Mockito.*;
 class AuthorServiceTest {
 
     private  List<Author> mockAuthors;
+    private  List<AuthorDto> mockAuthorsDto;
     @Mock
     private AuthorRepository authorRepository;
 
@@ -47,6 +48,8 @@ class AuthorServiceTest {
     @BeforeEach
     void setup(){
         mockAuthors = List.of(new Author("Kephas", ""), new Author("James", ""));
+
+        mockAuthorsDto = List.of(new AuthorDto(null, "Kephas", null, null), new AuthorDto(null, "James", null, null));
     }
 
 
@@ -58,7 +61,7 @@ class AuthorServiceTest {
         @DisplayName("Should return a list of authors")
         void getAuthors_ShouldReturnList_WhenAuthorsExist(){
             when(authorRepository.findAll()).thenReturn(mockAuthors);
-            List<Author> authors = authorService.getAuthors();
+            List<AuthorDto> authors = authorService.getAuthors();
             assertEquals(2, authors.size());
             verify(authorRepository, times(1)).findAll();
         }
@@ -74,9 +77,13 @@ class AuthorServiceTest {
         @DisplayName("Should return a single author")
         void getAuthors_ShouldReturnAuthor_WhenAuthorExist(){
             Author firstAuthor = mockAuthors.get(0);
+            AuthorDto firstAuthorDto = mockAuthorsDto.get(0);
+
             when(authorRepository.findById(firstAuthor.getId())).thenReturn(Optional.of(firstAuthor));
-            Author author = authorService.getOneAuthor(firstAuthor.getId());
-            assertEquals("Kephas", author.getName());
+            when(authorMapper.toDto(firstAuthor)).thenReturn(firstAuthorDto);
+
+            AuthorDto author = authorService.getOneAuthor(firstAuthor.getId());
+            assertEquals("Kephas", author.name());
             verify(authorRepository, times(1)).findById(firstAuthor.getId());
         }
 

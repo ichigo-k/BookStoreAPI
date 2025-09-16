@@ -89,7 +89,7 @@ class UserControllerTest {
                             .content(objectMapper.writeValueAsString(userDtoRequest)))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true))
-                    .andExpect(jsonPath("$.message").value("Details update successfully"));
+                    .andExpect(jsonPath("$.message").value("Details updated successfully"));
         }
     }
 

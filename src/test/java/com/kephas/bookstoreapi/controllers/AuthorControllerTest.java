@@ -80,9 +80,7 @@ class AuthorControllerTest {
         @DisplayName("getAuthorById_shouldReturn200")
         void getAuthorById_shouldReturn200() throws Exception {
             UUID id = UUID.randomUUID();
-            when(authorService.getOneAuthor(id)).thenReturn(author);
-            when(authorMapper.toDto(author)).thenReturn(authorDto);
-
+            when(authorService.getOneAuthor(id)).thenReturn(authorDto);
             mockMvc.perform(get("/api/v1/authors/" + id))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true))

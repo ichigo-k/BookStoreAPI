@@ -27,10 +27,7 @@ public class BookController {
 
     @GetMapping
     public ApiResponse<Object> getBooks(){
-        List<BookDto> books = bookService.getBooks()
-                .stream()
-                .map(bookMapper::toDto)
-                .collect(Collectors.toList());
+        List<BookDto> books = bookService.getBooks();
         return ApiResponse.success(null, books);
     }
 
@@ -68,10 +65,7 @@ public class BookController {
             @RequestParam(required = false) String categoryName,
             @RequestParam(required = false) Integer year
     ){
-        List<BookDto> books = bookService.searchBooks(title, authorName, categoryName, year)
-                .stream()
-                .map(bookMapper::toDto)
-                .collect(Collectors.toList());
+        List<BookDto> books = bookService.searchBooks(title, authorName, categoryName, year);
 
         if (books.isEmpty()) {
             return ApiResponse.success(NO_BOOKS_FOUND, books);

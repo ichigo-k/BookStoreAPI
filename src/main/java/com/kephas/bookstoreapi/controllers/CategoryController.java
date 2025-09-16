@@ -27,11 +27,7 @@ public class CategoryController {
 
     @GetMapping
     public ApiResponse<List<CategoryDto>> getCategories() {
-        List<CategoryDto> categories = categoryService.getCategories()
-                .stream()
-                .map(categoryMapper::toDto)
-                .collect(Collectors.toList());
-
+        List<CategoryDto> categories = categoryService.getCategories();
         return ApiResponse.success(null, categories);
     }
 

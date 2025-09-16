@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.kephas.bookstoreapi.constants.AuthorMessages.*;
 
@@ -25,12 +26,16 @@ public class AuthorService {
     private final BookRepository bookRepository;
     private final AuthorMapper authorMapper;
 
-    public List<Author> getAuthors(){
-        return authorRepository.findAll();
+    public List<AuthorDto> getAuthors(){
+
+        return authorRepository.findAll().stream()
+                .map(authorMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Author getOneAuthor(UUID id){
-        return authorRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException(AUTHOR_NOT_FOUND_BY_ID));
+    public AuthorDto getOneAuthor(UUID id){
+        Author author = authorRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException(String.format(AUTHOR_NOT_FOUND_BY_ID, id)));
+        return authorMapper.toDto(author);
     }
 
     public void createAuthor(AuthorDto authorDto) {

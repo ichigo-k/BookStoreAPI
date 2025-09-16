@@ -27,10 +27,7 @@ public class AuthorController {
 
     @GetMapping
     public ApiResponse<List<AuthorDto>> getAuthors() {
-        List<AuthorDto> authors = authorService.getAuthors()
-                .stream()
-                .map(authorMapper::toDto)
-                .collect(Collectors.toList());
+        List<AuthorDto> authors = authorService.getAuthors();
         return ApiResponse.success(null, authors);
     }
 
@@ -43,9 +40,8 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public ApiResponse<AuthorDto> getAuthor(@PathVariable UUID id){
-        Author author = authorService.getOneAuthor(id);
-        AuthorDto authorDto = authorMapper.toDto(author);
-        return ApiResponse.success(null, authorDto);
+        AuthorDto author = authorService.getOneAuthor(id);
+        return ApiResponse.success(null, author);
     }
 
     @DeleteMapping("/{id}")

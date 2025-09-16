@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.kephas.bookstoreapi.constants.BookMessages.*;
 
@@ -33,8 +34,10 @@ public class BookService {
     private final CategoryRepository categoryRepository;
 
 
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
+    public List<BookDto> getBooks() {
+        return bookRepository.findAll().stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -81,10 +84,12 @@ public class BookService {
     }
 
 
-    public List<Book> searchBooks(String title, String authorName, String categoryName, Integer year) {
+    public List<BookDto> searchBooks(String title, String authorName, String categoryName, Integer year) {
 
         if (title == null && authorName == null && categoryName ==null && year == null){
-            return bookRepository.findAll();
+            return bookRepository.findAll().stream()
+                    .map(bookMapper::toDto)
+                    .collect(Collectors.toList());
         }
 
         Specification<Book> spec = Specification.allOf(
@@ -95,7 +100,10 @@ public class BookService {
         );
 
 
-        return bookRepository.findAll(spec);
+        return bookRepository.findAll(spec) .stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+
     }
 
 }
